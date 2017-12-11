@@ -22,7 +22,7 @@ function ConvertToCSV(objArray) {
 			{
 				skipLine = true;
 			}else{
-				array[i][index] = array[i][index].replace(",", " ");
+				array[i][index] = array[i][index].replace("/[\W\D]/gi", " ");
 			}
 			
             if (line != '') line += ','
@@ -73,6 +73,7 @@ function prepJSONforCSV(jsonData){
 				obj[prop] = row[prop];
 			}
 		})
+		
 		return obj;
 	})
 
@@ -84,6 +85,7 @@ function elementAttributesToJSON (value, index, ar) {
 		att = atts[i];
 			obj[att.nodeName] = att.nodeValue;		
 	}
+	obj.textContent = value.textContent;
   return obj;
 }
 
