@@ -61,18 +61,23 @@ function downloadCSV(data,fileName)
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
 }
+
 function prepJSONforCSV(jsonData){
 	var props = getUniqueAttributeList(jsonData);
 	return jsonData.map(function(row){
+		var obj = {};
 		props.forEach(function(prop){
 			if (!row.hasOwnProperty(prop)) {
-				row[prop] = "[[blank]]";
+				obj[prop] = "[[blank]]";
+			}else{
+				obj[prop] = row[prop];
 			}
 		})
-		return row;
+		return obj;
 	})
 
 }
+
 function elementAttributesToJSON (value, index, ar) {
 	var obj = {};
 	for (var att, i = 0, atts = value.attributes, n = atts.length; i < n; i++){
@@ -81,12 +86,14 @@ function elementAttributesToJSON (value, index, ar) {
 	}
   return obj;
 }
+
 function scrapeByElementName(elementName){
 	var getElements = document.getElementsByTagName(elementName);
 	var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON);
-	downloadCSV(prepJSONforCSV(collection),"scrapedData");
+	var preppedData = prepJSONforCSV(collection);
+	console.log("preppedData", preppedData);
+	downloadCSV(preppedData,"scrapedData");
 }	
-
 
 function getUniqueAttributeList(data){
 	return data.map(function(row){
