@@ -13,7 +13,7 @@ function isBlank(stri) {return (!stri || /^\s*$/.test(stri));}
 function ConvertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
-	
+	str += Object.getOwnPropertyNames(array[0]).join(",") + '\r\n';
     for (var i = 0; i < array.length; i++) {
 		var skipLine = false;
         var line = '';
@@ -56,4 +56,41 @@ function downloadCSV(data,fileName)
 		link.click();
 		document.body.removeChild(link);
 	}; // end else
+}
+
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+function prepJSONforCSV(jsonData){
+	var props = getUniqueAttributeList(jsonData);
+	return jsonData.map(function(row){
+		props.forEach(function(prop){
+			if (!row.hasOwnProperty(prop)) {
+				row[prop] = "[[blank]]";
+			}
+		})
+		return row;
+	})
+
+}
+function elementAttributesToJSON (value, index, ar) {
+	var obj = {};
+	for (var att, i = 0, atts = value.attributes, n = atts.length; i < n; i++){
+		att = atts[i];
+			obj[att.nodeName] = att.nodeValue;		
+	}
+  return obj;
+}
+function scrapeByElementName(elementName){
+	var getElements = document.getElementsByTagName(elementName);
+	var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON);
+	downloadCSV(prepJSONforCSV(collection),"scrapedData");
+}	
+
+
+function getUniqueAttributeList(data){
+	return data.map(function(row){
+		return Object.getOwnPropertyNames(row)
+	}).reduce(function(a, b){return a.concat(b)},[]).filter( onlyUnique );
+	
 }
