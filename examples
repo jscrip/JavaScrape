@@ -1,0 +1,5 @@
+//This script depends on prep.js to be loaded first
+
+scrapeByElementName("a", "links");
+scrapeByElementName("div", "divs");
+scrapeByElementName("meta", "metaData");
