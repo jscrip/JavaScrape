@@ -93,7 +93,6 @@ function scrapeByElementName(elementName, fileName){
 	var getElements = document.getElementsByTagName(elementName);
 	var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON);
 	var preppedData = prepJSONforCSV(collection);
-	console.log("preppedData", preppedData);
 	downloadCSV(preppedData, fileName);
 }	
 
