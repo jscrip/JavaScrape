@@ -1,12 +1,3 @@
 //This script depends on prep.js to be loaded first
 
-function linksToJSON (value, index, ar) {
-  return {
-    text: value.text,
-    href: value.getAttribute("href")
-  }
-}
-var links = document.getElementsByTagName("a");
-var linkList = Array.prototype.slice.call(links).map(linksToJSON);
-			
-downloadCSV(linkList,"links");
+scrapeByElementName("a");
