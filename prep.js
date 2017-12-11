@@ -94,7 +94,7 @@ function scrapeByElementName(elementName, fileName){
 	var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON);
 	var preppedData = prepJSONforCSV(collection);
 	console.log("preppedData", preppedData);
-	downloadCSV(preppedData,"scrapedData");
+	downloadCSV(preppedData, fileName);
 }	
 
 function getUniqueAttributeList(data){
