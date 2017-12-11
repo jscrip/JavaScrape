@@ -89,7 +89,7 @@ function elementAttributesToJSON (value, index, ar) {
   return obj;
 }
 
-function scrapeByElementName(elementName){
+function scrapeByElementName(elementName, fileName){
 	var getElements = document.getElementsByTagName(elementName);
 	var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON);
 	var preppedData = prepJSONforCSV(collection);
