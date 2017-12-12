@@ -5,11 +5,9 @@
   
   downloadCSV was inspired by the contributions on this page:
   https://github.com/mholt/PapaParse/issues/175
-  
-  isBlank was inspired by the contributions on this page:
-  https://stackoverflow.com/questions/154059/how-do-you-check-for-an-empty-string-in-javascript
+
 */
-function isBlank(stri) {return (!stri || /^\s*$/.test(stri));}
+
 function ConvertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
