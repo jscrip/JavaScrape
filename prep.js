@@ -70,7 +70,7 @@ function prepJSONforCSV(jsonData){
 			if (!row.hasOwnProperty(prop)) {
 				obj[prop] = "[[blank]]";
 			}else{
-				obj[prop] = row[prop].replace(",", " ").replace("/[^a-z0-9]/gim", " ");
+				obj[prop] = row[prop].replace(/[\W]+/g,' ');
 			}
 		})
 		
@@ -83,9 +83,9 @@ function elementAttributesToJSON (value, index, ar) {
 	var obj = {};
 	for (var att, i = 0, atts = value.attributes, n = atts.length; i < n; i++){
 		att = atts[i];
-			obj[att.nodeName] = att.nodeValue.replace(",", " ").replace("/[^a-z0-9]/gim", " ");		
+			obj[att.nodeName] = att.nodeValue.replace(/[\W]+/g,' ');
 	}
-	obj.textContent = value.textContent.replace(",", " ").replace("/[^a-z0-9]/gim", " ");
+	obj.textContent = value.textContent.replace(/[\W]+/g,' ');
   return obj;
 }
 
