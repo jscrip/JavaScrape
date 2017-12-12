@@ -22,7 +22,7 @@ function ConvertToCSV(objArray) {
 			{
 				skipLine = true;
 			}else{
-				array[i][index] = array[i][index].replace("/[\W\D]/gi", " ");
+				array[i][index] = array[i][index];
 			}
 			
             if (line != '') line += ','
@@ -70,7 +70,7 @@ function prepJSONforCSV(jsonData){
 			if (!row.hasOwnProperty(prop)) {
 				obj[prop] = "[[blank]]";
 			}else{
-				obj[prop] = row[prop];
+				obj[prop] = row[prop].replace(",", " ").replace("/[^a-z0-9]/gim", " ");
 			}
 		})
 		
@@ -83,9 +83,9 @@ function elementAttributesToJSON (value, index, ar) {
 	var obj = {};
 	for (var att, i = 0, atts = value.attributes, n = atts.length; i < n; i++){
 		att = atts[i];
-			obj[att.nodeName] = att.nodeValue;		
+			obj[att.nodeName] = att.nodeValue.replace(",", " ").replace("/[^a-z0-9]/gim", " ");		
 	}
-	obj.textContent = value.textContent;
+	obj.textContent = value.textContent.replace(",", " ");
   return obj;
 }
 
@@ -93,6 +93,7 @@ function scrapeByElementName(elementName, fileName){
 	var getElements = document.getElementsByTagName(elementName);
 	var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON);
 	var preppedData = prepJSONforCSV(collection);
+	console.log(preppedData);
 	downloadCSV(preppedData, fileName);
 }	
 
