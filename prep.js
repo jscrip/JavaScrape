@@ -1,13 +1,3 @@
-/*
-  CREDITS:
-  ConvertToCSV was inspired by the contributions on this page:
-  https://stackoverflow.com/questions/8847766/how-to-convert-json-to-csv-format-and-store-in-a-variable
-  
-  downloadCSV was inspired by the contributions on this page:
-  https://github.com/mholt/PapaParse/issues/175
-
-*/
-
 function ConvertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
@@ -30,7 +20,6 @@ function ConvertToCSV(objArray) {
 
     return str;
 }
-
 function downloadCSV(data,fileName)
 {
   var convertedJSON = ConvertToCSV(data);
@@ -38,24 +27,22 @@ function downloadCSV(data,fileName)
 			type: 'text/csv;charset=utf-8;'
 		});
 	
-	//IE11 & Edge
+
 	if (navigator.msSaveBlob) {
 		navigator.msSaveBlob(csvData, fileName+'.csv');
 	} else {
-		//In FF link must be added to DOM to be clicked
+		
 		var link = document.createElement('a');
 		link.href = window.URL.createObjectURL(csvData);
 		link.setAttribute('download', fileName+'.csv');
 		document.body.appendChild(link);
 		link.click();
 		document.body.removeChild(link);
-	}; // end else
+	}; 
 }
-
 function onlyUnique(value, index, self) { 
     return self.indexOf(value) === index;
 }
-
 function prepJSONforCSV(jsonData){
 	var props = getUniqueAttributeList(jsonData);
 	return jsonData.map(function(row){
@@ -65,14 +52,12 @@ function prepJSONforCSV(jsonData){
 				obj[prop] = "[[blank]]";
 			}else{
 				obj[prop] = row[prop];
-			}
-		})
+			};
+		});
 		
 		return obj;
-	})
-
+	});
 }
-
 function elementAttributesToJSON (value, index, ar) {
 	var obj = {};
 	for (var att, i = 0, atts = value.attributes, n = atts.length; i < n; i++){
@@ -85,7 +70,7 @@ function elementAttributesToJSON (value, index, ar) {
 	}else
 	{
 		obj.textContent = "[[blank]]";
-	}
+	};
   return obj;
 }
 
@@ -103,7 +88,6 @@ function scrapeByClassName(className, fileName){
 }	
 function getUniqueAttributeList(data){
 	return data.map(function(row){
-		return Object.getOwnPropertyNames(row)
+		return Object.getOwnPropertyNames(row);
 	}).reduce(function(a, b){return a.concat(b)},[]).filter( onlyUnique );
-	
 }
