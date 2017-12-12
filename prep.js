@@ -15,17 +15,12 @@ function ConvertToCSV(objArray) {
     var str = '';
 	str += Object.getOwnPropertyNames(array[0]).join(",") + '\r\n';
     for (var i = 0; i < array.length; i++) {
+		
 		var skipLine = false;
         var line = '';
         for (var index in array[i]) {
-			if(isBlank(array[i][index]))
-			{
-				skipLine = true;
-			}else{
-				array[i][index] = array[i][index];
-			}
 			
-            if (line != '') line += ','
+            if (line != '') line += ',';
 			
             line += array[i][index];
 			
@@ -40,10 +35,11 @@ function ConvertToCSV(objArray) {
 
 function downloadCSV(data,fileName)
 {
-  var csvData = new Blob([ConvertToCSV(data)], {
+  var convertedJSON = ConvertToCSV(data);
+  var csvData = new Blob([convertedJSON], {
 			type: 'text/csv;charset=utf-8;'
 		});
-
+	
 	//IE11 & Edge
 	if (navigator.msSaveBlob) {
 		navigator.msSaveBlob(csvData, fileName+'.csv');
@@ -85,7 +81,13 @@ function elementAttributesToJSON (value, index, ar) {
 		att = atts[i];
 			obj[att.nodeName] = att.nodeValue.replace(/[\t\n\r,]/g,' ').replace(/\s+/g,' ').trim();
 	}
-	obj.textContent = value.textContent.replace(/[\t\n\r,]/g,' ').replace(/\s+/g,' ').trim();
+	if(value.textContent)
+	{
+		obj.textContent = value.textContent.replace(/[\t\n\r,]/g,' ').replace(/\s+/g,' ').trim();
+	}else
+	{
+		obj.textContent = "[[blank]]";
+	}
   return obj;
 }
 
@@ -93,7 +95,6 @@ function scrapeByElementName(elementName, fileName){
 	var getElements = document.getElementsByTagName(elementName);
 	var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON);
 	var preppedData = prepJSONforCSV(collection);
-	console.log(preppedData);
 	downloadCSV(preppedData, fileName);
 }	
 
