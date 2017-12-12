@@ -5,9 +5,11 @@
   
   downloadCSV was inspired by the contributions on this page:
   https://github.com/mholt/PapaParse/issues/175
-
+  
+  isBlank was inspired by the contributions on this page:
+  https://stackoverflow.com/questions/154059/how-do-you-check-for-an-empty-string-in-javascript
 */
-
+function isBlank(stri) {return (!stri || /^\s*$/.test(stri));}
 function ConvertToCSV(objArray) {
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
     var str = '';
@@ -95,7 +97,12 @@ function scrapeByElementName(elementName, fileName){
 	var preppedData = prepJSONforCSV(collection);
 	downloadCSV(preppedData, fileName);
 }	
-
+function scrapeByClassName(className, fileName){
+	var getElements = document.getElementsByClassName(className);
+	var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON);
+	var preppedData = prepJSONforCSV(collection);
+	downloadCSV(preppedData, fileName);
+}	
 function getUniqueAttributeList(data){
 	return data.map(function(row){
 		return Object.getOwnPropertyNames(row)
