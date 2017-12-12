@@ -85,7 +85,7 @@ function elementAttributesToJSON (value, index, ar) {
 		att = atts[i];
 			obj[att.nodeName] = att.nodeValue.replace(",", " ").replace("/[^a-z0-9]/gim", " ");		
 	}
-	obj.textContent = value.textContent.replace(",", " ");
+	obj.textContent = value.textContent.replace(",", " ").replace("/[^a-z0-9]/gim", " ");
   return obj;
 }
 
