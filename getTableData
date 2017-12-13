@@ -4,15 +4,24 @@ function scrapeColumn(column){
 			return column.textContent.replace(/[\t\n\r,]/g, ' ').replace(/\s+/g, ' ').trim();;
 }
 function scrapeRow(row){
-		var columns = row.getElementsByTagName("td");
+		var headers = row.getElementsByTagName("th");
+		
+		if(headers.length > 0)
+			{
+				var columns = row.getElementsByTagName("th");
+			}else{
+				var columns = row.getElementsByTagName("td");
+			}
 		var columnCollection = Array.prototype.slice.call(columns).map(scrapeColumn);
+
 		return columnCollection;
 }
 function scrapeTable(tableElement, i){
+	//console.log("tableElement", tableElement)
 	var rows = tableElement.getElementsByTagName("tr");
 	var rowCollection = Array.prototype.slice.call(rows).map(scrapeRow);
 	return rowCollection;
 }
 var tableCollection = Array.prototype.slice.call(tableElements).filter(function(element){return element;}).map(scrapeTable);
 
-console.log(tableCollection)
+console.log(tableCollection);
