@@ -6,7 +6,7 @@
 <TITLE>Bookmarks</TITLE>
 <H1>Bookmarks</H1>
 <DL><p>
-    <DT><H3 ADD_DATE="1508843202" LAST_MODIFIED="1513112439" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks bar</H3>
+    <DT><H3 ADD_DATE="1508843202" LAST_MODIFIED="1513114825" PERSONAL_TOOLBAR_FOLDER="true">Bookmarks bar</H3>
     <DL><p>
         <DT><H3 ADD_DATE="1513107458" LAST_MODIFIED="1513114510">JavaScrape</H3>
         <DL><p>
@@ -14,7 +14,7 @@
             <DT><A HREF="javascript: localStorage.setItem(&quot;pageNumber&quot;, 0);" ADD_DATE="1513109105">Start Count</A>
             <DT><A HREF="javascript: if (typeof(Storage) !== &quot;undefined&quot;) { var pageCount = Number(localStorage.getItem(&quot;pageNumber&quot;)) + 1; var getElements = document.getElementsByTagName(prompt(&quot;Which Element Would You Like To Select?&quot;,&quot;a&quot;)); var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON); var page = &quot;data-&quot;+pageCount; localStorage.setItem(page, JSON.stringify(prepJSONforCSV(collection))); localStorage.setItem(&quot;pageNumber&quot;, pageCount); } else { console.log(&quot;This ain't gunna work.&quot;); };" ADD_DATE="1513107997">Scrape by Element Name</A>
             <DT><A HREF="javascript: if (typeof(Storage) !== &quot;undefined&quot;) { var pageCount = Number(localStorage.getItem(&quot;pageNumber&quot;)) + 1; var getElements = document.getElementsByClassName(prompt(&quot;Which Element Would You Like To Select?&quot;,&quot;a&quot;)); var collection = Array.prototype.slice.call(getElements).map(elementAttributesToJSON); var page = &quot;data-&quot;+pageCount; localStorage.setItem(page, JSON.stringify(prepJSONforCSV(collection))); localStorage.setItem(&quot;pageNumber&quot;, pageCount); } else { console.log(&quot;This ain't gunna work.&quot;); };" ADD_DATE="1513114256">Scrape Elements By Class Name</A>
-            <DT><A HREF="javascript: var dataKeys = Object.keys(localStorage).filter(function(d){return d.indexOf(&quot;data-&quot;) > - 1;}); dataKeys.forEach(function(d){ downloadCSV(JSON.parse(localStorage.getItem(d)), d); d});" ADD_DATE="1513110026">Download Reports</A>
+            <DT><A HREF="javascript: var dataKeys = Object.keys(localStorage).filter(function (d) { return d.indexOf(&quot;data-&quot;) > - 1; }); var flattened = dataKeys.reduce(function(a, b) {return a.concat(JSON.parse(localStorage.getItem(b)));},[]); downloadCSV(flattened, &quot;download&quot;);" ADD_DATE="1513110026">Download Reports</A>
             <DT><A HREF="javascript: var dataKeys = Object.keys(localStorage).filter(function(d){return d.indexOf(&quot;data-&quot;) > - 1;}); dataKeys.forEach(function(d){ localStorage.removeItem(d); localStorage.setItem(&quot;pageNumber&quot;, 0); });" ADD_DATE="1513110535">Delete Reports</A>
         </DL><p>
     </DL><p>
