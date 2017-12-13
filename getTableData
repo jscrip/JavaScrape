@@ -1,0 +1,18 @@
+var tables = [];
+var tableElements = document.getElementsByTagName("table");
+function scrapeColumn(column){
+			return column.textContent.replace(/[\t\n\r,]/g, ' ').replace(/\s+/g, ' ').trim();;
+}
+function scrapeRow(row){
+		var columns = row.getElementsByTagName("td");
+		var columnCollection = Array.prototype.slice.call(columns).map(scrapeColumn);
+		return columnCollection;
+}
+function scrapeTable(tableElement, i){
+	var rows = tableElement.getElementsByTagName("tr");
+	var rowCollection = Array.prototype.slice.call(rows).map(scrapeRow);
+	return rowCollection;
+}
+var tableCollection = Array.prototype.slice.call(tableElements).filter(function(element){return element;}).map(scrapeTable);
+
+console.log(tableCollection)
