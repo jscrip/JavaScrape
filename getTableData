@@ -1,27 +1,41 @@
+function downloadCSV(csvString, fileName) {
+	var csvData = new Blob([csvString], {
+			type: 'text/csv;charset=utf-8;'
+		});
+	if (navigator.msSaveBlob) {
+		navigator.msSaveBlob(csvData, fileName + '.csv');
+	} else {
+		var link = document.createElement('a');
+		link.href = window.URL.createObjectURL(csvData);
+		link.setAttribute('download', fileName + '.csv');
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	};
+}
 var tables = [];
 var tableElements = document.getElementsByTagName("table");
 function scrapeColumn(column){
-			return column.textContent.replace(/[\t\n\r,]/g, ' ').replace(/\s+/g, ' ').trim();;
+			return column.textContent.replace(/[\t\n\r,]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 function scrapeRow(row){
 		var headers = row.getElementsByTagName("th");
 		
 		if(headers.length > 0)
 			{
-				var columns = row.getElementsByTagName("th");
+				var columns = headers;
 			}else{
 				var columns = row.getElementsByTagName("td");
 			}
 		var columnCollection = Array.prototype.slice.call(columns).map(scrapeColumn);
-
 		return columnCollection;
 }
 function scrapeTable(tableElement, i){
 	//console.log("tableElement", tableElement)
 	var rows = tableElement.getElementsByTagName("tr");
 	var rowCollection = Array.prototype.slice.call(rows).map(scrapeRow);
-	return rowCollection;
+	return rowCollection.join("\r\n");
 }
 var tableCollection = Array.prototype.slice.call(tableElements).filter(function(element){return element;}).map(scrapeTable);
+downloadCSV(tableCollection.join("\r\n\r\n"),"data")
 
-console.log(tableCollection);
